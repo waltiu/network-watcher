@@ -1,13 +1,13 @@
 {
   "name": "network-watcher",
-  "version": "0.0.1",
-  "description": "",
+  "version": "0.0.3",
+  "description": "自动检测网络是否可用",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsup index.ts --dts"
   },
-  "keywords": [],
+  "keywords": ["network","online","offline"],
   "author": "",
   "license": "ISC",
   "devDependencies": {

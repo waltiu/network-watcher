@@ -49,9 +49,10 @@ var request = (imgUrl, timeout) => {
 };
 var checkNetwork = (imgUrl, callback, options) => {
   const { interval = 3e4, timeout } = options || {};
-  setInterval(async () => {
+  const timer = setInterval(async () => {
     const status = await request(imgUrl, timeout);
     callback(status);
   }, interval);
+  return timer;
 };
 var network_watcher_default = checkNetwork;

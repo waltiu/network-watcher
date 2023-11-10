@@ -37,10 +37,11 @@ type CheckNetworkType = (
 
 const checkNetwork: CheckNetworkType = (imgUrl, callback, options) => {
   const { interval = 30_000, timeout } = options || {};
-  setInterval(async () => {
+  const timer = setInterval(async () => {
     const status = (await request(imgUrl, timeout)) as boolean;
     callback(status);
   }, interval);
+  return timer
 };
 
 export default checkNetwork
