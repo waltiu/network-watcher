@@ -27,6 +27,7 @@ const request = (imgUrl, timeout) => {
 type CheckNetworkOptionsType = {
   interval: number; // 循环时间 单位ms
   timeout: number; // 请求超时时间 单位ms
+  errorTime:number  // 请求失败时，间隔几秒重试
 };
 
 type CheckNetworkType = (
@@ -36,9 +37,12 @@ type CheckNetworkType = (
 ) => void;
 
 const checkNetwork: CheckNetworkType = (imgUrl, callback, options) => {
-  const { interval = 30_000, timeout } = options || {};
+  const { interval = 30_000, timeout,errorTime } = options || {};
   const timer = setInterval(async () => {
     const status = (await request(imgUrl, timeout)) as boolean;
+    if(!status){
+      request(imgUrl,errorTime||timeout)
+    }
     callback(status);
   }, interval);
   return timer

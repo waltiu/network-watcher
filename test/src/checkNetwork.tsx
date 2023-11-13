@@ -24,8 +24,9 @@ const init = async () => {
       }
     },
     {
-      interval:3000,
+      interval:5000,
       timeout: 1000,
+      errorTime:1
     },
   );
 };

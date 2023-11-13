@@ -48,9 +48,12 @@ var request = (imgUrl, timeout) => {
   });
 };
 var checkNetwork = (imgUrl, callback, options) => {
-  const { interval = 3e4, timeout } = options || {};
+  const { interval = 3e4, timeout, errorTime } = options || {};
   const timer = setInterval(async () => {
     const status = await request(imgUrl, timeout);
+    if (!status) {
+      request(imgUrl, errorTime || timeout);
+    }
     callback(status);
   }, interval);
   return timer;

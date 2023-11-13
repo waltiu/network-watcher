@@ -1,6 +1,7 @@
 type CheckNetworkOptionsType = {
     interval: number;
     timeout: number;
+    errorTime: number;
 };
 type CheckNetworkType = (imgUrl: string, // 图片url
 callback: (isOnline: boolean) => void, // 回调，返回网络是否在线
