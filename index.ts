@@ -37,11 +37,20 @@ type CheckNetworkType = (
 ) => void;
 
 const checkNetwork: CheckNetworkType = (imgUrl, callback, options) => {
-  const { interval = 30_000, timeout,retry } = options || {};
+  const { interval = 30_000, timeout, retry } = options || {};
   const timer = setInterval(async () => {
     const status = (await request(imgUrl, timeout)) as boolean;
-    if(!status){
-      request(imgUrl,retry||timeout)
+    let retryTimer = null
+    if (!status) {
+      retryTimer = setInterval(async () => {
+        const retryStatus = (await request(imgUrl, retry || timeout)) as boolean
+        if (retryStatus) {
+          clearInterval(retryTimer)
+        }
+        callback(retryStatus);
+      }, retry || timeout)
+    } else {
+      clearInterval(retryTimer)
     }
     callback(status);
   }, interval);
